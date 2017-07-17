@@ -29,4 +29,20 @@ class HeapTest {
         System.out.println(array);
         assertEquals(16, (int) array.get(0));
     }
+
+    @Test
+    void testBuildMinHeap() {
+        heap.buildMinHeap(array);
+        System.out.println(array);
+        assertEquals(1, (int) array.get(0));
+    }
+
+    @Test
+    void testHeapSort() {
+        heap.heapSort(array);
+        System.out.println(array);
+        assertEquals(1, (int) array.get(0));
+        assertEquals(2, (int) array.get(1));
+        assertEquals(9,(int) array.get(6));
+    }
 }

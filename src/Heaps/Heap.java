@@ -1,5 +1,7 @@
 package Heaps;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -8,34 +10,37 @@ import java.util.List;
 public class Heap {
 
     public void buildMaxHeap(List<Integer> array) {
-        int heapSize = array.size()-1;
-        for (int i = heapSize / 2; i >= 0; i--) {
-            maxHeapify(array, i);
+        int heapSize = array.size() / 2 - 1;
+        for (int i = heapSize; i >= 0; i--) {
+            maxHeapify(array, array.size()-1, i);
         }
     }
 
-    public void buildMinHeap() {
-
+    public void buildMinHeap(List<Integer> array) {
+        int heapSize = array.size() / 2 - 1;
+        for (int i = heapSize; i >= 0; i--) {
+            minHeapify(array, array.size()-1, i);
+        }
     }
 
-    public void maxHeapify(List<Integer> array, int index) {
+    public void maxHeapify(List<Integer> array, int max, int index) {
         int largest;
         int leftChildIndex = getLeftChildIndex(index);
         int rightChildIndex = getRightChildIndex(index);
 
-        if (leftChildIndex <= array.size()-1 && array.get(leftChildIndex) > array.get(index)) {
+        if (leftChildIndex < max && array.get(leftChildIndex) > array.get(index)) {
             largest = leftChildIndex;
         } else {
             largest = index;
         }
 
-        if (rightChildIndex <= array.size()-1 && array.get(rightChildIndex) > array.get(largest)) {
+        if (rightChildIndex < max && array.get(rightChildIndex) > array.get(largest)) {
             largest = rightChildIndex;
         }
 
         if (largest != index) {
             swap(array, largest, index);
-            maxHeapify(array, largest);
+            maxHeapify(array, max, largest);
         }
     }
 
@@ -45,8 +50,33 @@ public class Heap {
         array.set(index2, temp);
     }
 
-    public void minHeapify() {
+    public void minHeapify(List<Integer> array, int min, int index) {
+        int smallest;
+        int leftChildIndex = getLeftChildIndex(index);
+        int rightChildIndex = getRightChildIndex(index);
 
+        if (leftChildIndex <= min && array.get(leftChildIndex) < array.get(index)) {
+            smallest = leftChildIndex;
+        } else {
+            smallest = index;
+        }
+
+        if (rightChildIndex <= min && array.get(rightChildIndex) < array.get(smallest)) {
+            smallest = rightChildIndex;
+        }
+
+        if (smallest != index) {
+            swap(array, smallest, index);
+            minHeapify(array, min, smallest);
+        }
+    }
+
+    public void heapSort(List<Integer> array) {
+        buildMaxHeap(array);
+        for (int i = array.size() -1; i >= 0; i--) {
+            swap(array, 0, i);
+            maxHeapify(array, i,0);
+        }
     }
 
     public int getParentIndex(int index) {
