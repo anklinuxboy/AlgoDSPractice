@@ -7,13 +7,16 @@ import java.util.List;
 /**
  * Created by ankitsharma on 7/12/17.
  */
-public class Heap {
+public class Heap implements PriorityQueue {
+
+    private boolean isMaxHeap = false;
 
     public void buildMaxHeap(List<Integer> array) {
         int heapSize = array.size() / 2 - 1;
         for (int i = heapSize; i >= 0; i--) {
             maxHeapify(array, array.size()-1, i);
         }
+        isMaxHeap = true;
     }
 
     public void buildMinHeap(List<Integer> array) {
@@ -90,5 +93,48 @@ public class Heap {
 
     public int getRightChildIndex(int index) {
         return index * 2 + 2;
+    }
+
+    public boolean isMaxHeap() {
+        return isMaxHeap;
+    }
+
+    public int heapMaximum(List<Integer> array) {
+        return array.get(0);
+    }
+
+    @Override
+    public int heapExtractMax(List<Integer> array) {
+        if (array.size() == 0) {
+            throw new IllegalArgumentException("Array size zero");
+        }
+
+        int max = array.get(0);
+        array.set(0, array.get(array.size()-1));
+        array.remove(array.size()-1);
+
+        maxHeapify(array, array.size()-1, 0);
+        return max;
+    }
+
+    @Override
+    public void heapIncreaseKey(List<Integer> array, int index, int key) {
+        if (key < array.get(index)) {
+            throw new IllegalArgumentException("Key is less than the current value");
+        }
+
+        array.set(index, key);
+        int parentIndex = getParentIndex(index);
+        while (array.get(parentIndex) < array.get(index)) {
+            swap(array, index, parentIndex);
+            index = parentIndex;
+            parentIndex = getParentIndex(index);
+        }
+    }
+
+    @Override
+    public void maxHeapInsert(List<Integer> array, int key) {
+        array.add(Integer.MIN_VALUE);
+        heapIncreaseKey(array, array.size()-1, key);
     }
 }

@@ -45,4 +45,31 @@ class HeapTest {
         assertEquals(2, (int) array.get(1));
         assertEquals(9,(int) array.get(6));
     }
+
+    @Test
+    void testMaxPriorityQueue() {
+        heap.buildMaxHeap(array);
+        assertEquals(16, heap.heapMaximum(array));
+    }
+
+    @Test
+    void testHeapExtractMax() {
+        heap.buildMaxHeap(array);
+        assertEquals(16, heap.heapExtractMax(array));
+        assertEquals(14, heap.heapMaximum(array));
+    }
+
+    @Test
+    void testHeapIncreaseKey() {
+        heap.buildMaxHeap(array);
+        heap.heapIncreaseKey(array, 9, 17);
+        assertEquals(17, heap.heapMaximum(array));
+    }
+
+    @Test
+    void testMaxHeapInsert() {
+        heap.buildMaxHeap(array);
+        heap.maxHeapInsert(array, 15);
+        assertEquals(15, (int) array.get(1));
+    }
 }
